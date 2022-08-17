@@ -3,25 +3,18 @@ import { IPaginaFormulario } from "./pagina.create.interface";
 import { IPaginaHTML } from "./pagina.interface";
 import { IRepositorio } from "./repositorio.interface";
 
-export abstract class PaginaCadastroBase<T extends EntidadeBase>  implements IPaginaHTML, IPaginaFormulario {
-    private txtDescricao: HTMLInputElement;
-    private rdbPrioridade: HTMLInputElement;
-    private btnSalvar: HTMLButtonElement;
-    
+export abstract class PaginaCreateBase<T extends EntidadeBase>  implements IPaginaHTML, IPaginaFormulario {
+    protected registro : T
+
     constructor(private repositorioRegistros: IRepositorio<T>){
         this.configurarElementos();
     }
-    configurarElementos(): void {        
-        this.txtDescricao = document.getElementById("txtDescricao") as HTMLInputElement;
-        this.btnSalvar = document.getElementById("btnSalvar") as HTMLButtonElement;
-        
-        // operador discard _
-        this.btnSalvar.addEventListener("click", (_evt) => this.gravarRegistros());
-    }
+
+    abstract configurarElementos() : void;
+
     gravarRegistros(): void {
-        this.rdbPrioridade = document.querySelector('input[type="radio"]:checked') as HTMLInputElement;
-
-
+        
+        this.configurarElementos();
         
         //const prioridade = this.rdbPrioridade.value as Prioridade;
 
@@ -29,17 +22,9 @@ export abstract class PaginaCadastroBase<T extends EntidadeBase>  implements IPa
          
         //var novoRegistro = this.txtDescricao.value;
               
-        this.repositorioRegistros.inserir(novoRegistro);
+        this.repositorioRegistros.inserir(this.registro);
     
         // método para redirecionar usuario
         window.location.href = "tarefa.list.html";        
     }   
-    private obterDadosFormulario() : T {
-
-        Object.values(tarefa).forEach((valor: any) => {
-            const novaCelula = novaLinha.insertCell();
-            
-            novaCelula.innerText = valor;
-          });
-    } 
 }
