@@ -1,4 +1,4 @@
-import { IPaginaHTML } from "./Dominio/base/pagina.interface.js";
+import { IPaginaHTML } from "./shared/pagina.interface";
 
 class Index implements IPaginaHTML {
     btnCadastrar : HTMLButtonElement;
@@ -7,6 +7,5 @@ class Index implements IPaginaHTML {
         this.configurarElementos();
     }
     public configurarElementos() : void{        }
-
-    new Index();
 }
+new Index();
